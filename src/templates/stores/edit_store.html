@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+    <!--Added three "query" fields to accommodate source pages breaking up price into separate pieces
+    If nothing is passed in by the user, query2 and query 3 will default to "." and "99", respectively
+    query1 = currency (XXX of $XXX.CC)
+    query2 = currency percentile separator (. of $XXX.CC)
+    query3 = currency remainder (CC of $XXX.CC)-->
+    <header><h1>Update Store</h1></header>
+    <section class="update-store-form">
+        <form method="post">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="John Smith" value="{{ store.name }}">
+            </div>
+            <div class="form-group">
+                <label for="url_prefix">URL Prefix</label>
+                <input type="text" class="form-control" id="url_prefix" name="url_prefix" placeholder="https://..."
+                       value="{{ store.url_prefix }}" aria-describedby="urlPrefixHelp">
+                <small id="urlPrefixHelp" class="form-text text-muted">
+                    Main store page's URL (e.g. https://www.walmart.com/)
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="tag_name">HTML Tag Name</label>
+                <input type="text" class="form-control" id="tag_name" name="tag_name" placeholder="span"
+                       value="{{ store.tag_name }}" aria-describedby="tagNameHelp">
+                <small id="tagNameHelp" class="form-text text-muted">
+                    The HTML tag to search for in the store pages for pricing information
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="query1">HTML Dollar Query</label>
+                <input type="text" class="form-control" id="query1" name="query1" placeholder='{"class": "price-characteristic", "itemprop": "price"}'
+                       value="{{ store.query1 }}" aria-describedby="query1Help">
+                <small id="query1Help" class="form-text text-muted">
+                    The tag attributes which contain dollar information (e.g. "XXX" in $XXX.CC)
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="query2">HTML Separator Query</label>
+                <input type="text" class="form-control" id="query2" name="query2" placeholder='{"class": "price-mark"}'
+                       value="{{ store.query2 }}" aria-describedby="query2Help">
+                <small id="query2Help" class="form-text text-muted">
+                    The tag attributes which contain currency mark information (e.g. "." in $XXX.CC) - optional, defaults to "."
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="query3">HTML Change Query</label>
+                <input type="text" class="form-control" id="query3" name="query3" placeholder='{"class": "price-mantissa"}'
+                       value="{{ store.query3 }}" aria-describedby="query3Help">
+                <small id="query3Help" class="form-text text-muted">
+                    The tag attributes which contain change information (e.g. "CC" in $XXX.CC) - optional, defaults to "99"
+                </small>
+            </div>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+    </section>
+
+{% endblock %}
